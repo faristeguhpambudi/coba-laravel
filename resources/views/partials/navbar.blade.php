@@ -19,6 +19,11 @@
           <a class="nav-link active" href="/categories">Categories</a>
         </li>
       </ul>
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link active" href="/login"><i class="bi bi-box-arrow-in-left mr-2"></i>Login</a>
+        </li>
+      </ul>
     </div>
   </div>
 </nav>
