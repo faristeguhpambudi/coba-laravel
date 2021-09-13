@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -57,11 +58,19 @@ Route::get('/categories', function () {
 });
 
 
-
-Route::get('/login', [LoginController::class, 'index']);
-Route::get('/register', [RegisterController::class, 'index']);
+//untuk ke halaman login dengan menjalankan middleware dulu, hanya bisa diakses oleh belum autentikasi
+Route::get('/login', [LoginController::class, 'index'])->name('login')->middleware('guest');
+//untuk logout
+Route::post('/logout', [LoginController::class, 'logout']);
+//untuk ke halaman register
+Route::get('/register', [RegisterController::class, 'index'])->middleware('guest');
 //untuk daftar method post
 Route::post('/register', [RegisterController::class, 'store']);
+//untuk login
+Route::post('/login', [LoginController::class, 'authenticate']);
+
+//berhasil login
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
 
 
 // Route::get('/authors/{author:username}', function (User $author) {
