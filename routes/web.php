@@ -74,9 +74,12 @@ Route::get('/dashboard', function () {
     return view('dashboard/index');
 })->middleware('auth');
 
+//untuk cek slug
+Route::get('/dashboard/posts/cekSlug', [DashboardPostControler::class, 'cekSlug']);
 
 //untuk pengelolaan/dashboard posts controller
 Route::resource('/dashboard/posts', DashboardPostControler::class)->middleware('auth');
+
 
 
 // Route::get('/authors/{author:username}', function (User $author) {
