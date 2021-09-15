@@ -12,8 +12,13 @@
                   @csrf
                 <button type="submit" class="btn btn-danger mt-2 border-0" onclick="return confirm('yakin hapus data?')">Delete</button>
             </form>
-                    <img src="https://source.unsplash.com/1200x400?{{ $post->category->name }}" class="card-img-top mt-2" alt="...">
-                <h5>{{ $post->body }}</h5>
+            @if($post->image)
+            <img src="{{ asset('storage/' . $post->image) }}" class="card-img-top mt-2" alt="...">
+        <h5>{{ $post->body }}</h5>
+            @else
+            <img src="https://source.unsplash.com/1200x400?{{ $post->category->name }}" class="card-img-top mt-2" alt="...">
+        <h5>{{ $post->body }}</h5>
+            @endif
                 
         </div>
     </div>
