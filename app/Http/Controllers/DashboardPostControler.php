@@ -86,6 +86,10 @@ class DashboardPostControler extends Controller
     public function edit(Post $post)
     {
         //
+        return view('dashboard/posts/edit', [
+            'categories' => Category::all(),
+            'post' => $post
+        ]);
     }
 
     /**
@@ -97,6 +101,30 @@ class DashboardPostControler extends Controller
      */
     public function update(Request $request, Post $post)
     {
+        //validasi inputan data
+        $rules = [
+            'title' => 'required|max:255',
+            'category_id' => 'required',
+            'body' => 'required',
+        ];
+
+        if ($request->slug != $post->slug) {
+            $rules['slug'] = 'required|unique:posts';
+        }
+
+        //sudah lolos validasi
+        $validatedData = $request->validate($rules);
+
+        //untul field yang lain
+        $validatedData['user_id'] = auth()->user()->id;
+        $validatedData['excerpt'] = Str::limit(strip_tags($request->body), 150);
+
+        //update ke database
+        Post::where('id', $post->id)
+            ->update($validatedData);
+
+        //redirect
+        return redirect('/dashboard/posts')->with('success', 'New Post Has Been Updated');
     }
 
     /**
@@ -108,6 +136,10 @@ class DashboardPostControler extends Controller
     public function destroy(Post $post)
     {
         //
+        //hapus ke database
+        Post::destroy($post->id);
+
+        return redirect('/dashboard/posts')->with('success', 'Post Has Been Deleted');
     }
 
     public function cekSlug(Request $request)
