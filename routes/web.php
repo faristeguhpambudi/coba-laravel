@@ -1,6 +1,6 @@
 <?php
 
-
+use App\Http\Controllers\AdminCategoryController;
 use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
@@ -79,6 +79,9 @@ Route::get('/dashboard/posts/cekSlug', [DashboardPostControler::class, 'cekSlug'
 
 //untuk pengelolaan/dashboard posts controller
 Route::resource('/dashboard/posts', DashboardPostControler::class)->middleware('auth');
+
+//untuk mengarah category controller, kecuali show
+Route::resource('/dashboard/categories', AdminCategoryController::class)->except('show')->middleware('is_admin');
 
 
 
